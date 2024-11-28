@@ -13,7 +13,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+@Rota(caminho = "/adicionarProduto")
 public class ProdutoAdicionarServlet implements Command {
  private static final long serialVersionUID = 1L;
      @Inject

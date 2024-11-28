@@ -1,5 +1,6 @@
 package br.com.ucsal.controller;
 
+import br.com.ucsal.controller.annotation.Command;
 import br.com.ucsal.controller.annotation.Inject;
 import br.com.ucsal.controller.annotation.Rota;
 import br.com.ucsal.controller.annotation.Singleton;
@@ -14,10 +15,15 @@ import java.io.File;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @WebListener
 public class InicializadorListener implements ServletContextListener {
+
+    private Map<String, Command> commands = new HashMap<>();
+
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -57,7 +63,7 @@ public class InicializadorListener implements ServletContextListener {
                          System.out.println(className);
 
                         Class<?> clazz = Class.forName(className, false, context.getClassLoader());
-
+                        System.out.println(clazz.isAnnotationPresent(Inject.class));
 
                         // **Nova Verificação para Anotações**
                         if (clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())) {
@@ -72,23 +78,31 @@ public class InicializadorListener implements ServletContextListener {
                         }
 
                         if (clazz.isAnnotationPresent(Rota.class)) {
-                            if (jakarta.servlet.Servlet.class.isAssignableFrom(clazz)) {
+                            //if (jakarta.servlet.Servlet.class.isAssignableFrom(clazz)) {
                                 Rota rota = clazz.getAnnotation(Rota.class);
-                                Object servlet = clazz.getDeclaredConstructor().newInstance();
-                                context.addServlet(clazz.getSimpleName(), (jakarta.servlet.Servlet) servlet)
-                                        .addMapping(rota.caminho());
+                                Command servlet = (Command) clazz.getDeclaredConstructor().newInstance();
+                                //context.addServlet(clazz.getSimpleName(), (jakarta.servlet.Servlet) servlet)
+                                        //.addMapping(rota.caminho());
+
+                            commands.put(rota.caminho(),servlet);
+                            InjectionManager.injectDependencies(servlet);
                                 System.out.println("Rota registrada: " + rota.caminho());
-                            } else {
-                                System.err.println("Classe anotada com @Rota não é um Servlet: " + className);
-                            }
+                           // } else {
+                          //      System.err.println("Classe anotada com @Rota não é um Servlet: " + className);
+                         //   }
                         }
+
 
                     } catch (Exception e) {
                         e.printStackTrace();
                         System.err.println("Erro ao processar a classe: " + file.getName());
                     }
+
                 }
             }
+
+
+            context.setAttribute("command",commands);
         } else {
             System.err.println("Diretório inválido ou vazio: " + directory.getAbsolutePath());
         }

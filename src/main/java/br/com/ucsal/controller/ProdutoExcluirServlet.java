@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import br.com.ucsal.controller.annotation.Command;
 import br.com.ucsal.controller.annotation.Inject;
+import br.com.ucsal.controller.annotation.Rota;
 import br.com.ucsal.persistencia.HSQLProdutoRepository;
 import br.com.ucsal.service.ProdutoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+@Rota(caminho = "/excluirProduto")
 public class ProdutoExcluirServlet implements Command {
 	private static final long serialVersionUID = 1L;
 	@Inject

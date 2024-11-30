@@ -18,8 +18,6 @@ public class ProdutoEditarServlet implements Command {
    @Inject
     private ProdutoService produtoService;
 
-
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String method = request.getMethod();
@@ -30,7 +28,6 @@ public class ProdutoEditarServlet implements Command {
             doPost(request, response);
         }
     }
-
     private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         Produto produto = produtoService.obterProdutoPorId(id);
@@ -38,7 +35,6 @@ public class ProdutoEditarServlet implements Command {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/produtoformulario.jsp");
         dispatcher.forward(request, response);
     }
-
     private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         String nome = request.getParameter("nome");

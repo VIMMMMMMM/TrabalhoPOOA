@@ -15,9 +15,6 @@ public class ProdutoExcluirServlet implements Command {
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private ProdutoService produtoService;
-
-
-
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Lógica de exclusão

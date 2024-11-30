@@ -11,7 +11,7 @@ import br.com.ucsal.persistencia.ProdutoRepository;
 
 public class ProdutoService {
     @Inject
-    @ImplementedBy(MemoriaProdutoRepository.class)
+    @ImplementedBy(HSQLProdutoRepository.class)
     private ProdutoRepository<Produto, Integer> produtoRepository;
 
 

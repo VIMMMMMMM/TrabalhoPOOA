@@ -78,18 +78,13 @@ public class InicializadorListener implements ServletContextListener {
                         }
 
                         if (clazz.isAnnotationPresent(Rota.class)) {
-                            //if (jakarta.servlet.Servlet.class.isAssignableFrom(clazz)) {
+
                                 Rota rota = clazz.getAnnotation(Rota.class);
                                 Command servlet = (Command) clazz.getDeclaredConstructor().newInstance();
-                                //context.addServlet(clazz.getSimpleName(), (jakarta.servlet.Servlet) servlet)
-                                        //.addMapping(rota.caminho());
-
                             commands.put(rota.caminho(),servlet);
                             InjectionManager.injectDependencies(servlet);
                                 System.out.println("Rota registrada: " + rota.caminho());
-                           // } else {
-                          //      System.err.println("Classe anotada com @Rota não é um Servlet: " + className);
-                         //   }
+
                         }
 
 
